@@ -1,3 +1,1 @@
-OPTIONS=-f conf/first.conf
-PidFile /var/run/httpd-second.pid
-Listen 8082
+OPTIONS=-f conf/second.conf
