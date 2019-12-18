@@ -60,21 +60,25 @@ Vagrant.configure("2") do |config|
 	    cp /vagrant/watchlog.service /etc/systemd/system/
 	    cp /vagrant/watchlog.log /var/log/
 	    sudo chmod +x /opt/watchlog.sh
-	    sudo systemctl daemon-reload
 	    sudo systemctl start watchlog.timer
 	    sudo systemctl start watchlog.service
 	    sudo yum install epel-release -y && yum install spawn-fcgi php php-cli mod_fcgid httpd -y
 	    cp /vagrant/spawn-fcgi /etc/sysconfig/
 	    cp /vagrant/spawn-fcgi.service /etc/systemd/system/
 	    sudo systemctl start spawn-fcgi
+	    cp /vagrant/config /etc/selinux/
 	    cp /vagrant/first.conf /etc/httpd/conf/
 	    cp /vagrant/second.conf /etc/httpd/conf/
 	    cp /vagrant/httpd-first /etc/sysconfig/
 	    cp /vagrant/httpd-second /etc/sysconfig/
-	    cp /vagrant/httpd1.service /etc/systemd/system/
-	    cp /vagrant/httpd2.service /etc/systemd/system/
-
-          SHELL
+	    cp /vagrant/httpd@.service /etc/systemd/system/
+	    sudo systemctl daemon-reload
+	    sudo systemctl enable httpd@first
+            sudo systemctl enable httpd@second
+	    sudo systemctl enable watchlog.timer
+	    sudo systemctl enable watchlog.service
+	    sudo shutdown -r now
+	SHELL
   
         end
     end
